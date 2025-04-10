@@ -1,0 +1,84 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/blocks';
+import * as CalendarStories from './Calendar.stories';
+
+<Meta of={CalendarStories} />
+
+# Calendar Component
+
+A flexible and accessible calendar component for React applications. This component supports single date selection, date range selection, and time selection with full keyboard navigation and screen reader support.
+
+## Features
+
+- Single date selection
+- Date range selection
+- Time selection
+- Customizable themes
+- Internationalization support
+- Full keyboard navigation
+- Screen reader friendly
+- TypeScript support
+
+## Installation
+
+```bash
+npm install ts-free-calendar
+# or
+yarn add ts-free-calendar
+```
+
+## Basic Usage
+
+```tsx
+import { Calendar } from 'ts-free-calendar';
+
+function MyComponent() {
+  return (
+    <Calendar
+      selectedDate={new Date()}
+      onChange={(date) => console.log(date)}
+    />
+  );
+}
+```
+
+## Props
+
+The Calendar component accepts the following props:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| selectedDate | Date \| null | null | The currently selected date |
+| onChange | (date: Date) => void | - | Callback fired when a date is selected |
+| minDate | Date | null | The minimum selectable date |
+| maxDate | Date | null | The maximum selectable date |
+| disabled | boolean | false | Whether the calendar is disabled |
+| locale | string | 'en-US' | The locale to use for date formatting |
+| theme | Theme | defaultTheme | The theme to apply to the calendar |
+
+## Examples
+
+### Basic Date Selection
+
+<Canvas of={CalendarStories.Default} />
+
+## Best Practices
+
+1. Always provide a label or aria-label for accessibility
+2. Use minDate and maxDate to prevent invalid date selections
+3. Consider timezone implications when working with dates
+4. Provide clear error messages for invalid date selections
+5. Use the theme prop to match your application's design system
+
+## Accessibility
+
+The Calendar component is built with accessibility in mind:
+
+- Full keyboard navigation support
+- ARIA labels and roles
+- Screen reader announcements
+- Focus management
+- Color contrast compliance
+
+## Contributing
+
+We welcome contributions! Please see our contributing guidelines for more information. 

@@ -1,5 +1,5 @@
-import { ElementProps } from "@mantine/core"
 import clsx from "clsx"
+import { HTMLAttributes } from "react"
 
 import { useCalendarContext, EventResources, CalendarEvent } from "@/."
 import { BaseDisplayProperties } from "@/lib/displayStrategies"
@@ -7,10 +7,8 @@ import { CalendarLocalizer } from "@/lib/localizers"
 
 import * as classes from "./Event.css"
 
-import { Box, BoxProps } from "@/Components"
-
-interface Event<TEventResources extends EventResources> extends
-	BoxProps, Omit<ElementProps<"div", keyof BoxProps>, "onClick"> {
+interface EventProps<TEventResources extends EventResources> extends
+	Omit<HTMLAttributes<HTMLDivElement>, "onClick"> {
 	event: CalendarEvent<TEventResources>
 	onClick?: (event: CalendarEvent<TEventResources>, element: HTMLElement) => void
 	localizer: CalendarLocalizer
@@ -23,10 +21,11 @@ const Event = <TEventResources extends EventResources>({
 	event,
 	onClick,
 	displayProperties,
-}: Event<TEventResources>) => {
+	...props
+}: EventProps<TEventResources>) => {
 	const { onEventClick } = useCalendarContext<TEventResources>()
 
-	const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		if(onClick) {
 			onClick(event, e.currentTarget)
 		} else if(onEventClick) {
@@ -35,12 +34,13 @@ const Event = <TEventResources extends EventResources>({
 	}
 
 	return (
-		<Box
+		<div
 			className={ clsx(classes.event, className) }
 			onClick={ handleClick }
+			{ ...props }
 		>
-			<Box component="span">{ children }</Box>
-		</Box>
+			<span>{ children }</span>
+		</div>
 	)
 }
 

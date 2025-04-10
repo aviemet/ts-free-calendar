@@ -6,7 +6,7 @@ export const eventWrapper = css`
   --column-start: 1;
   --grid-row-start: 1;
   --grid-row-end: 1;
-  --event-color: ${ vars.colors.primaryColors.filled };
+  --event-color: ${ vars.colors.primary };
   --contrasting-color: light-dark(${ vars.colors.black }, ${ vars.colors.white });
   --hover-color: color-mix(
           in srgb,

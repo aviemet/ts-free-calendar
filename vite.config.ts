@@ -1,21 +1,24 @@
 import path from "path"
 
-import linaria from "@linaria/vite"
 import react from "@vitejs/plugin-react"
+import wyw from "@wyw-in-js/vite"
 import dts from "vite-plugin-dts"
 import { defineConfig } from "vitest/config"
+
+
+export const wywConfig = {
+	sourceMap: process.env.NODE_ENV !== "production",
+	include: ["**/*.{ts,tsx}"],
+	exclude: ["**/node_modules/**"],
+	babelOptions: {
+		presets: ["@babel/preset-typescript", "@babel/preset-react"],
+	},
+}
 
 export default defineConfig({
 	plugins: [
 		react(),
-		linaria({
-			sourceMap: process.env.NODE_ENV !== "production",
-			include: ["**/*.{ts,tsx}"],
-			exclude: ["**/node_modules/**"],
-			babelOptions: {
-				presets: ["@babel/preset-typescript", "@babel/preset-react"],
-			},
-		}),
+		wyw(wywConfig),
 		dts({
 			insertTypesEntry: true,
 		}),

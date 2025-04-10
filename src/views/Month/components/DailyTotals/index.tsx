@@ -1,7 +1,5 @@
 import clsx from "clsx"
 
-import { Box, Group } from "@/Components"
-
 import * as classes from "./DailyTotals.css"
 
 interface DailyTotalsProps {
@@ -10,12 +8,12 @@ interface DailyTotalsProps {
 
 const DailyTotals = ({ dailyMinutesTotal }: DailyTotalsProps) => {
 	return (
-		<Box className={ clsx((classes.dailyTotals)) }>
-			<Group justify="space-between">
-				<Box>Total Hours</Box>
-				<Box>{ Math.round(dailyMinutesTotal / 60) }</Box>
-			</Group>
-		</Box>
+		<div className={ clsx((classes.dailyTotals)) }>
+			<div>
+				<div>Total Hours</div>
+				<div>{ Math.round(dailyMinutesTotal / 60) }</div>
+			</div>
+		</div>
 	)
 }
 

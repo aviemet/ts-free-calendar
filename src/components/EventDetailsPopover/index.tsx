@@ -30,7 +30,7 @@ function EventDetailsPopover<TEventResources extends EventResources>(
 		return () => clearTimeout(timer)
 	}, [])
 
-	const color = event.color || vars.colors.primaryColors.filled
+	const color = event.color || vars.colors.primary
 
 	return (
 		<div

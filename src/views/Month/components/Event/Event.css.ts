@@ -9,7 +9,7 @@ const triangleWidth = 3
 export const eventWrapper = css`
   --column-start: 1;
   --column-span: 1;
-  --event-color: ${ vars.colors.primaryColors.filled };
+  --event-color: ${ vars.colors.primary };
   --contrasting-color: light-dark(${ vars.colors.black }, ${ vars.colors.white });
   --hover-color: color-mix(
           in srgb,

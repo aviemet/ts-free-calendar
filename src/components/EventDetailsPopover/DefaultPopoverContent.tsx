@@ -11,7 +11,7 @@ interface DefaultPopoverContentProps<TEventResources extends EventResources> {
 
 const DefaultPopoverContent = <TEventResources extends EventResources>({ event }: DefaultPopoverContentProps<TEventResources>) => {
 	const { localizer } = useCalendarContext<TEventResources>()
-	const color = event.color || vars.colors.primaryColors.filled
+	const color = event.color || vars.colors.primary
 
 	return (
 		<div className={ clsx(classes.popover) }>

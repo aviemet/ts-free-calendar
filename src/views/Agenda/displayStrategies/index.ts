@@ -1,0 +1,1 @@
+export { AgendaStackStrategy } from "./stack"

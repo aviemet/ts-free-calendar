@@ -1,0 +1,117 @@
+{
+  "name": "ts-free-calendar",
+  "version": "1.0.0",
+  "main": "./dist/ts-free-calendar.cjs.js",
+  "module": "./dist/ts-free-calendar.es.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/style.css",
+  "exports": {
+    ".": {
+      "import": "./dist/ts-free-calendar.es.js",
+      "require": "./dist/ts-free-calendar.cjs.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": "https://github.com/aviemet/ts-free-calendar.git",
+  "author": "Avram Walden <aviemet@gmail.com>",
+  "license": "MIT",
+  "description": "",
+  "keywords": [],
+  "packageManager": "yarn@4.8.0",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.27.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/compat": "^1.2.8",
+    "@eslint/json": "^0.11.0",
+    "@linaria/react": "^6.3.0",
+    "@linaria/vite": "^5.0.4",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/react-vite": "^8.6.12",
+    "@storybook/test": "^8.6.12",
+    "@stylelint/postcss-css-in-js": "^0.38.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "@stylistic/stylelint-config": "^2.0.0",
+    "@stylistic/stylelint-plugin": "^3.1.2",
+    "@tanstack/eslint-plugin-query": "^5.72.2",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.2",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@wyw-in-js/vite": "^0.6.0",
+    "clsx": "^2.1.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "dayjs": "^1.11.13",
+    "eslint": "^9.24.0",
+    "eslint-import-resolver-typescript": "^4.3.2",
+    "eslint-plugin-better-styled-components": "^1.1.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-json": "^4.0.1",
+    "eslint-plugin-jsonc": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-storybook": "^0.12.0",
+    "husky": "^9.1.7",
+    "jsdom": "^26.0.0",
+    "jsonc-eslint-parser": "^2.4.0",
+    "lint-staged": "^15.5.0",
+    "storybook": "^8.6.12",
+    "stylelint": "^16.18.0",
+    "stylelint-config-standard": "^38.0.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.6",
+    "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-dynamic-import": "^1.6.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.1.1",
+    "yarn": "^1.22.22"
+  },
+  "peerDependencies": {
+    "dayjs": "*",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run lint:types && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint:fix"
+    ],
+    "*.{md,json,yml}": [
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  }
+}

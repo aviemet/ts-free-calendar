@@ -5,18 +5,19 @@ import * as CalendarStories from './Calendar.stories';
 
 # Calendar Component
 
-A flexible and accessible calendar component for React applications. This component supports single date selection, date range selection, and time selection with full keyboard navigation and screen reader support.
+A flexible calendar component for React applications designed for displaying events across various views (Month, Week, Day, Agenda). It supports event rendering, navigation, view switching, resource grouping, and customization.
 
 ## Features
 
-- Single date selection
-- Date range selection
-- Time selection
-- Customizable themes
-- Internationalization support
-- Full keyboard navigation
-- Screen reader friendly
-- TypeScript support
+- Multiple Views: Month, Week, Day, Agenda
+- Event Display: Show events with titles, start/end times.
+- Navigation: Move between date ranges (next/previous month, week, day) and jump to 'today'.
+- View Switching: Allow users to change between supported views.
+- Slot Selection: Callback for when a user clicks on a time slot or day.
+- Resource Grouping: Display events grouped by associated resources (e.g., rooms, people).
+- Custom Event Popovers: Provide custom content when hovering over events.
+- Localization Support: Adapt date/time formatting (requires providing a `localizer`).
+- TypeScript Support
 
 ## Installation
 
@@ -29,13 +30,24 @@ yarn add ts-free-calendar
 ## Basic Usage
 
 ```tsx
-import { Calendar } from 'ts-free-calendar';
+import { Calendar, VIEWS } from 'ts-free-calendar';
 
 function MyComponent() {
+  const events = [
+    {
+      id: "1",
+      title: "Team Meeting",
+      start: new Date(),
+      end: new Date(new Date().setHours(new Date().getHours() + 1)),
+    },
+  ];
+
   return (
     <Calendar
-      selectedDate={new Date()}
-      onChange={(date) => console.log(date)}
+      defaultDate={new Date()}
+      defaultView={VIEWS.month}
+      events={events}
+      style={{ height: '500px' }} // Recommended to set a height
     />
   );
 }
@@ -45,39 +57,44 @@ function MyComponent() {
 
 The Calendar component accepts the following props:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| selectedDate | Date \| null | null | The currently selected date |
-| onChange | (date: Date) => void | - | Callback fired when a date is selected |
-| minDate | Date | null | The minimum selectable date |
-| maxDate | Date | null | The maximum selectable date |
-| disabled | boolean | false | Whether the calendar is disabled |
-| locale | string | 'en-US' | The locale to use for date formatting |
-| theme | Theme | defaultTheme | The theme to apply to the calendar |
+| Prop                  | Type                                                                 | Default       | Description                                                                 |
+|-----------------------|----------------------------------------------------------------------|---------------|-----------------------------------------------------------------------------|
+| `defaultDate`         | `Date`                                                               | -             | The initial date the calendar should display.                               |
+| `defaultView`         | `VIEW_NAMES`                                                         | `VIEWS.month` | The initial view the calendar should display.                               |
+| `events`              | `CalendarEvent<TEventResources>[]`                                   | `[]`          | An array of event objects to display on the calendar.                         |
+| `localizer`           | `CalendarLocalizer`                                                  | -             | An object providing methods for date formatting and localization.           |
+| `views`               | `readonly VIEW_NAMES[]`                                              | `Object.values(VIEWS)` | An array of views the calendar should support.                              |
+| `displayStrategies`   | `Partial<StrategyNameMap>`                                          | `{}`          | Custom rendering strategies for different views.                              |
+| `onNavigate`          | `(newDate: Date, action: NAVIGATION_ACTION, view: VIEW_NAMES) => void` | -             | Callback fired when the calendar navigates to a new date range or view.     |
+| `onViewChange`        | `(view: VIEW_NAMES) => void`                                         | -             | Callback fired when the calendar's view changes.                            |
+| `eventPopoverContent` | `(event: CalendarEvent, localizer: CalendarLocalizer) => React.ReactNode` | -             | Function to render custom content for the event popover.                    |
+| `onSelectSlot`        | `(date: Date) => void`                                               | -             | Callback fired when a time slot or day is selected.                         |
+| `resources`           | `Resource[]`                                                         | `[]`          | An array of resource objects for grouping events.                           |
+| `groupByResource`     | `boolean`                                                            | `false`       | If true, group events by the resources provided in the `resources` prop.    |
+| *Other Props*         | `HTMLAttributes<HTMLDivElement>`                                     | -             | Standard HTML attributes for the root div element.                          |
+
 
 ## Examples
 
-### Basic Date Selection
+### Basic Calendar with Events
 
-<Canvas of={CalendarStories.Default} />
+<Canvas of={CalendarStories.WithEvents} />
+
+### Calendar Grouped by Resources
+
+<Canvas of={CalendarStories.WithResources} />
 
 ## Best Practices
 
-1. Always provide a label or aria-label for accessibility
-2. Use minDate and maxDate to prevent invalid date selections
-3. Consider timezone implications when working with dates
-4. Provide clear error messages for invalid date selections
-5. Use the theme prop to match your application's design system
+1. Provide a `localizer` for proper date/time formatting and internationalization.
+2. Set a height for the Calendar component via the `style` prop or CSS to ensure proper layout, especially for views with time grids.
+3. Consider timezone implications when creating and passing event dates.
+4. Use `onSelectSlot` to handle user interactions for creating new events or selecting dates/times.
+5. Leverage `eventPopoverContent` for richer event details on hover.
 
 ## Accessibility
 
-The Calendar component is built with accessibility in mind:
-
-- Full keyboard navigation support
-- ARIA labels and roles
-- Screen reader announcements
-- Focus management
-- Color contrast compliance
+Efforts are made to ensure accessibility, including focus management and ARIA attributes where appropriate. Further enhancements are ongoing.
 
 ## Contributing
 

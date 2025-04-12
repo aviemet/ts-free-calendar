@@ -34,7 +34,7 @@ const EventWrapper = <TEventResources extends EventResources, P extends GridDisp
 
 	return (
 		<div
-			className={ clsx(classes.eventWrapper, displayProperties.className) }
+			className={ clsx(classes.monthEventWrapper, displayProperties.className) }
 			style={ {
 				"--column-start": displayProperties.columnStart,
 				"--column-span": displayProperties.columnSpan,

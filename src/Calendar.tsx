@@ -26,6 +26,7 @@ interface CalendarProps<TEventResources extends EventResources = EventResources>
 	onSelectSlot?: (date: Date) => void
 	resources?: Resource[]
 	groupByResource?: boolean
+	maxEvents?: number
 }
 
 const Calendar = <TEventResources extends EventResources>({
@@ -41,6 +42,7 @@ const Calendar = <TEventResources extends EventResources>({
 	onSelectSlot,
 	resources = [],
 	groupByResource = false,
+	maxEvents = 4,
 }: CalendarProps<TEventResources>) => {
 	const localLocalizer = useDefaultLocalizer(localizer)
 
@@ -139,6 +141,7 @@ const Calendar = <TEventResources extends EventResources>({
 		onEventClick: handleEventClick,
 		resourcesById,
 		groupByResource,
+		maxEvents,
 	}), [
 		date,
 		events,
@@ -148,6 +151,7 @@ const Calendar = <TEventResources extends EventResources>({
 		handleEventClick,
 		resourcesById,
 		groupByResource,
+		maxEvents,
 	])
 
 	if(!localLocalizer) return <></>

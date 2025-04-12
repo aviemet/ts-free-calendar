@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import { chunk } from "lodash-es"
-import { useMemo, useState } from "react"
+import { CSSProperties, useMemo, useState } from "react"
 
 import { useCalendarContext, EventResources } from "@/."
 import { calculateDailyHours } from "@/lib/calculateDailyHours"
@@ -13,7 +13,7 @@ import {
 
 import DailyTotals from "./components/DailyTotals"
 import { DaysHeading } from "./components/DaysHeading"
-import { EventWrapper, Event } from "./components/Event"
+import { EventWrapper, MonthEvent } from "./components/Event"
 import * as classes from "./MonthView.css"
 import { useDynamicHoverStyles } from "./useDynamicHoverStyles"
 import {
@@ -21,6 +21,7 @@ import {
 	ViewStrategyName,
 	GridDisplayProperties,
 } from "../../lib/displayStrategies"
+import { ShowMore } from "./components/Event/ShowMore"
 
 
 interface MonthViewProps<TEventResources extends EventResources> extends BaseViewProps<TEventResources> {
@@ -32,7 +33,7 @@ const MonthViewComponent = <
 	TEventResources extends EventResources
 >({ className, style, displayStrategy, showDailyTotals = true, onSelectSlot }: MonthViewProps<TEventResources>) => {
 
-	const { date, localizer, events } = useCalendarContext<TEventResources>()
+	const { date, localizer, events, maxEvents } = useCalendarContext<TEventResources>()
 
 	const eventsByDay = useDisplayStrategy<TEventResources, "month", GridDisplayProperties>(
 		VIEWS.month,
@@ -66,6 +67,9 @@ const MonthViewComponent = <
 		}
 	}
 
+	// Find the max rows displayed in a week
+	let numEventsRows = maxEvents === Infinity ? 0 : maxEvents
+
 	return (
 		<div
 			className={ clsx(classes.monthView, className) }
@@ -78,7 +82,7 @@ const MonthViewComponent = <
 
 			<div className={ clsx(classes.daysContainer) }>
 				{ weeks.map((week, index) => {
-					const { backgroundCells, headingCells, contentCells, totalCells } = week.reduce((acc, day) => {
+					const { backgroundCells, headingCells, contentCells, totalCells } = week.reduce((acc, day, weekDayIndex) => {
 						const dayMapKey = day.toISOString()
 						/**
 						 * BACKGROUND LAYER
@@ -114,36 +118,90 @@ const MonthViewComponent = <
 						const dayEvents = eventsByDay?.get(dayMapKey)
 
 						if(dayEvents) {
-							acc.contentCells.push(
-								dayEvents.map(({ event, displayProperties }) => {
-									if(
-										displayProperties.columnStart === undefined || displayProperties.columnSpan === undefined
-									) {
-										// eslint-disable-next-line no-console
-										console.warn("MonthView rendering missing grid properties", event, displayProperties)
-										return null
-									}
+							const visibleEvents = []
+							const overflowEvents = []
 
-									return (
-										<EventWrapper<TEventResources>
+							// Build and sort each event based on maxEvents prop
+							dayEvents.forEach(({ event, displayProperties }, dayEventsIndex) => {
+								if(
+									displayProperties.columnStart === undefined || displayProperties.columnSpan === undefined
+								) {
+									// eslint-disable-next-line no-console
+									console.warn("MonthView rendering missing grid properties", event, displayProperties)
+									return null
+								}
+
+								const eventComponent = (
+									<EventWrapper<TEventResources>
+										key={ `${event.id}-${displayProperties.displayStart.toISOString()}` }
+										displayProperties={ displayProperties }
+										event={ event }
+										setHoverId={ setHoverId }
+									>
+										<MonthEvent<TEventResources>
 											key={ `${event.id}-${displayProperties.displayStart.toISOString()}` }
-											displayProperties={ displayProperties }
 											event={ event }
-											setHoverId={ setHoverId }
+											displayProperties={ displayProperties }
+											localizer={ localizer }
+											className={ clsx(displayProperties.className) }
 										>
-											<Event<TEventResources>
-												key={ `${event.id}-${displayProperties.displayStart.toISOString()}` }
-												event={ event }
-												displayProperties={ displayProperties }
-												localizer={ localizer }
-												className={ clsx(displayProperties.className) }
-											>
-												{ typeof event.title === "string" ? event.title : event.title({ start: displayProperties.displayStart, end: displayProperties.displayEnd, allDay: event.allDay, resources: event.resources }) }
-											</Event>
-										</EventWrapper>
-									)
-								})
-							)
+											{ typeof event.title === "string" ? event.title : event.title({ start: displayProperties.displayStart, end: displayProperties.displayEnd, allDay: event.allDay, resources: event.resources }) }
+										</MonthEvent>
+									</EventWrapper>
+								)
+
+								if(dayEventsIndex < maxEvents) { // Build visible events list
+									visibleEvents.push(eventComponent)
+								} else { // Build overflow events list
+									overflowEvents.push(eventComponent)
+								}
+
+								if(numEventsRows !== Infinity && numEventsRows < dayEventsIndex) {
+									numEventsRows = dayEventsIndex
+								}
+							})
+
+							// Add show more button to the end of the visible events
+							if(overflowEvents.length > 0) {
+								visibleEvents.push(
+									<ShowMore column={ weekDayIndex + 1 }>
+										{ overflowEvents }
+									</ShowMore>
+								)
+							}
+
+							acc.contentCells.push(visibleEvents)
+
+							// acc.contentCells.push(
+							// 	dayEvents.map(({ event, displayProperties }) => {
+							// 		if(
+							// 			displayProperties.columnStart === undefined || displayProperties.columnSpan === undefined
+							// 		) {
+							// 			// eslint-disable-next-line no-console
+							// 			console.warn("MonthView rendering missing grid properties", event, displayProperties)
+							// 			return null
+							// 		}
+
+							// 		return (
+							// 			<EventWrapper<TEventResources>
+							// 				key={ `${event.id}-${displayProperties.displayStart.toISOString()}` }
+							// 				displayProperties={ displayProperties }
+							// 				event={ event }
+							// 				setHoverId={ setHoverId }
+							// 			>
+							// 				<Event<TEventResources>
+							// 					key={ `${event.id}-${displayProperties.displayStart.toISOString()}` }
+							// 					event={ event }
+							// 					displayProperties={ displayProperties }
+							// 					localizer={ localizer }
+							// 					className={ clsx(displayProperties.className) }
+							// 				>
+							// 					{ typeof event.title === "string" ? event.title : event.title({ start: displayProperties.displayStart, end: displayProperties.displayEnd, allDay: event.allDay, resources: event.resources }) }
+							// 				</Event>
+							// 			</EventWrapper>
+							// 		)
+							// 	})
+							// )
 						}
 
 						/**
@@ -166,7 +224,9 @@ const MonthViewComponent = <
 					})
 
 					return (
-						<div className={ clsx(classes.row) } key={ `week_${index}` }>
+						<div className={ clsx(classes.row) } key={ `week_${index}` } style={ {
+							"--min-rows": numEventsRows,
+						} as CSSProperties }>
 							<div
 								className={ clsx(classes.rowLayerContainer, classes.backgroundLayer) }
 								onClick={ handleClickBackground }

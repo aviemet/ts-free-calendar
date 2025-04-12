@@ -5,6 +5,8 @@ import { StrategyNameMap } from "@/lib/displayStrategies"
 import { type CalendarLocalizer } from "@/lib/localizers"
 import { VIEWS, VIEW_NAMES, NAVIGATION_ACTION } from "@/views"
 
+import { generateEvents } from "../lib/events"
+
 interface CalendarProps<TEventResources extends EventResources = EventResources> {
 	defaultDate?: Date
 	defaultView?: VIEW_NAMES
@@ -21,7 +23,11 @@ interface CalendarProps<TEventResources extends EventResources = EventResources>
 }
 
 const CalendarWrapper = <TEventResources extends EventResources>(props: CalendarProps<TEventResources>) => {
-	return <Calendar { ...props } />
+	return (
+		<div style={ { width: "1000px", height: "700px" } }>
+			<Calendar { ...props } />
+		</div>
+	)
 }
 
 const meta: Meta<typeof Calendar> = {
@@ -68,7 +74,7 @@ const meta: Meta<typeof Calendar> = {
 			description: "Callback function fired when the user changes the calendar view.",
 		},
 		eventPopoverContent: {
-			control: "object", // Cannot directly control a function render prop in Storybook easily
+			control: "object",
 			description: "Optional. A function that returns custom React node content for the event popover.",
 		},
 		onSelectSlot: {
@@ -90,10 +96,13 @@ const meta: Meta<typeof Calendar> = {
 export default meta
 type Story = StoryObj<typeof Calendar>
 
+const now = new Date()
+
 export const Default: Story = {
 	args: {
-		defaultDate: new Date(),
-		events: [],
+		defaultDate: now,
+		defaultView: VIEWS.month,
+		events: generateEvents(now, VIEWS.month),
 		resources: [],
 	},
 	render: (args) => <CalendarWrapper { ...args } />,
@@ -101,15 +110,9 @@ export const Default: Story = {
 
 export const WithEvents: Story = {
 	args: {
-		defaultDate: new Date(),
-		events: [
-			{
-				id: "1",
-				title: "Meeting",
-				start: new Date(),
-				end: new Date(new Date().setHours(new Date().getHours() + 1)),
-			},
-		],
+		defaultDate: now,
+		defaultView: VIEWS.month,
+		events: generateEvents(now, VIEWS.month),
 		resources: [],
 	},
 	render: (args) => <CalendarWrapper { ...args } />,
@@ -117,7 +120,7 @@ export const WithEvents: Story = {
 
 export const WithResources: Story = {
 	args: {
-		defaultDate: new Date(),
+		defaultDate: now,
 		defaultView: VIEWS.week,
 		events: [
 			{

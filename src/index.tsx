@@ -33,6 +33,7 @@ interface CalendarContextValue<TEventResources extends EventResources = EventRes
 	onEventClick: (event: CalendarEvent<TEventResources>, element: HTMLElement) => void
 	resourcesById: Map<string | number, Resource>
 	groupByResource: boolean
+	maxEvents: number
 }
 
 export type CalendarContext<TEventResources extends EventResources = EventResources> = CalendarContextValue<TEventResources>

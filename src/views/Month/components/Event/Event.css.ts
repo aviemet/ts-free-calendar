@@ -6,7 +6,10 @@ import { vars } from "@/lib"
 
 const triangleWidth = 3
 
-export const eventWrapper = css`
+export const showMore = css`
+`
+
+export const monthEventWrapper = css`
   --column-start: 1;
   --column-span: 1;
   --event-color: ${ vars.colors.primary };
@@ -20,11 +23,14 @@ export const eventWrapper = css`
   overflow: hidden;
   pointer-events: all;
   grid-column: var(--column-start) / span var(--column-span);
+
+  &.${ showMore } {
+    grid-column: var(--column-start) / span var(--column-span);
+  }
 `
 
-export const event = css`
+export const monthEvent = css`
   font-size: ${ vars.fontSizes.xs };
-  letter-spacing: -1px;
   border-radius: ${ vars.radius.sm };
   padding: 2px 5px 2px 6px;
   margin: 1px 3px;
@@ -119,4 +125,8 @@ export const event = css`
       border-bottom-color: var(--hover-color);
     }
   }
+`
+
+export const overflowEvents = css`
+  display: none;
 `

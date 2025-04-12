@@ -33,6 +33,7 @@ export const daysContainer = css`
 `
 
 export const row = css`
+  --min-rows: 4;
 	position: relative;
 	display: flex;
 	flex: 1 1 0%;
@@ -41,6 +42,7 @@ export const row = css`
 	border-top-width: 1px;
 	border-top-style: solid;
 	padding-bottom: ${ vars.spacing.xs };
+  min-height: calc(var(--min-rows) * ${ eventHeight });
 `
 
 export const columnHeading = css`

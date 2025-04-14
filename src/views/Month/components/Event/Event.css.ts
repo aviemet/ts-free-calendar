@@ -61,7 +61,7 @@ export const monthEvent = css`
 
   &.indicator {
     &:hover {
-      background-color: light-dark(${ vars.colors.gray[2] }, ${ vars.colors.dark[6] });
+      background-color: light-dark(${ vars.colors.background.disabled.light }, ${ vars.colors.background.disabled.dark });
     }
 
     &::before {

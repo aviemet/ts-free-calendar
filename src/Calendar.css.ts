@@ -2,7 +2,7 @@ import { css } from "@linaria/core"
 
 import { vars } from "@/lib"
 
-export const borderColor = `light-dark(${ vars.colors.gray[5] }, ${ vars.colors.dark[2] })`
+export const borderColor = `light-dark(${ vars.colors.border.default.light }, ${ vars.colors.border.default.dark })`
 
 export const calendarOuterContainer = css`
 	display: flex;
@@ -26,7 +26,7 @@ export const calendarInnerContainer = css`
 	min-height: 0;
 	padding: 0;
 	margin: 0;
-	background-color: light-dark(${ vars.colors.gray[0] }, ${ vars.colors.dark[8] });
+	background-color: light-dark(${ vars.colors.background.default.light }, ${ vars.colors.background.default.dark });
 	border-radius: ${ vars.radius.lg };
 	border-width: 1px;
 	border-color: ${ borderColor };

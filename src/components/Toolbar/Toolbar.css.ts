@@ -4,9 +4,9 @@ import { vars } from "@/lib"
 
 export const buttonsContainer = css`
   position: relative;
-  background-color: light-dark(${ vars.colors.gray[0] }, ${ vars.colors.dark[8] });
+  background-color: light-dark(${ vars.colors.background.default.light }, ${ vars.colors.background.default.dark });
   padding: ${ vars.spacing.xxs };
-  border: 1px solid light-dark(${ vars.colors.gray[2] }, ${ vars.colors.gray[7] });
+  border: 1px solid light-dark(${ vars.colors.border.default.light }, ${ vars.colors.border.default.dark });
 
   display: flex;
   align-items: center;

@@ -116,21 +116,21 @@ export const dateCellBackground = css`
   }
   
   &:hover {
-    background-color: light-dark(${ vars.colors.gray[1] }, ${ vars.colors.dark[7] });
+    background-color: light-dark(${ vars.colors.background.hover.light }, ${ vars.colors.background.hover.dark });
   }
 
   &.${ outOfRange } {
-    background-color: light-dark(${ vars.colors.gray[2] }, ${ vars.colors.dark[6] });
+    background-color: light-dark(${ vars.colors.background.disabled.light }, ${ vars.colors.background.disabled.dark });
 
     &:hover {
-      background-color: light-dark(${ vars.colors.gray[1] }, ${ vars.colors.dark[5] });
+      background-color: light-dark(${ vars.colors.background.disabledHover.light }, ${ vars.colors.background.disabledHover.dark });
     }
   }
 `
 
 export const dateCellHeading = css`
   font-size: 14px;
-  color: light-dark(${ vars.colors.dark[4] }, ${ vars.colors.gray[2] });
+  color: light-dark(${ vars.colors.text.default.light }, ${ vars.colors.text.default.dark });
   background: transparent;
   height: ${ headingHeight };
   display: flex;
@@ -139,7 +139,7 @@ export const dateCellHeading = css`
   align-items: center;
 
   &.${ outOfRange } {
-    color: light-dark(${ vars.colors.dark[2] }, ${ vars.colors.gray[2] });
+    color: light-dark(${ vars.colors.text.disabled.light }, ${ vars.colors.text.disabled.dark });
   }
 `
 
@@ -150,16 +150,16 @@ export const dateToday = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: ${ vars.spacing.xl };
-    height: ${ vars.spacing.xl };
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%;
-    background-color: light-dark(${ vars.colors.gray[4] }, ${ vars.colors.dark[0] });
-    border: 2px solid light-dark(${ vars.colors.gray[7] }, ${ vars.colors.dark[6] });
+    background-color: light-dark(${ vars.colors.background.highlight.light }, ${ vars.colors.background.highlight.dark });
+    border: 2px solid light-dark(${ vars.colors.border.highlight.light }, ${ vars.colors.border.highlight.dark });
     transition: all 200ms ease;
-    color: light-dark(${ vars.colors.gray[7] }, ${ vars.colors.gray[9] });
+    color: light-dark(${ vars.colors.text.highlight.light }, ${ vars.colors.text.highlight.dark });
 
     &:hover {
-      background: ${ vars.colors.blue[1] };
+      background: ${ vars.colors.text.accent.light };
     }
   }
 `

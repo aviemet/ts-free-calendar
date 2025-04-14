@@ -11,7 +11,10 @@ export const wywConfig = {
 	include: ["**/*.{ts,tsx}"],
 	exclude: ["**/node_modules/**"],
 	babelOptions: {
-		presets: ["@babel/preset-typescript", "@babel/preset-react"],
+		presets: [
+			"@babel/preset-typescript",
+			"@babel/preset-react",
+		],
 	},
 }
 

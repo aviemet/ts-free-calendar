@@ -32,9 +32,9 @@ const config: StorybookConfig = {
 
 		config.plugins = config.plugins || []
 
-		config.plugins.push(
-			wyw(wywConfig)
-		)
+		if(!config.plugins.some((p: any) => p && p.name === "wyw")) {
+			config.plugins.push(wyw(wywConfig))
+		}
 
 		return config
 	},

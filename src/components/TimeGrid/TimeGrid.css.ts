@@ -3,7 +3,7 @@ import { css } from "@linaria/core"
 import { rem, vars } from "@/lib"
 
 const rowHeight = rem(60)
-const borderColor = `light-dark(${ vars.colors.dark[6] }, ${ vars.colors.gray[3] })`
+const borderColor = `light-dark(${ vars.colors.border.default.light }, ${ vars.colors.border.default.dark })`
 
 export const timeGrid = css`
   display: grid;
@@ -24,7 +24,7 @@ export const timeColumn = css`
 
 export const timeSlot = css`
   height: ${ rowHeight };
-  color: light-dark(${ vars.colors.dark[7] }, ${ vars.colors.gray[4] });
+  color: light-dark(${ vars.colors.text.default.light }, ${ vars.colors.text.default.dark });
   font-size: ${ vars.fontSizes.xxs };
   font-weight: 700;
   position: relative;
@@ -54,7 +54,7 @@ export const timeSlot = css`
     top: 50%;
     left: 0;
     right: -0.5rem;
-    border-top: 1px dotted light-dark(${ vars.colors.dark[8] }, ${ vars.colors.gray[6] });
+    border-top: 1px dotted ${ borderColor };
   }
 `
 
@@ -104,7 +104,7 @@ export const columnHeadings = css`
 export const columnHeading = css`
   text-align: center;
   font-weight: 500;
-  color: light-dark(${ vars.colors.dark[7] }, ${ vars.colors.gray[3] });
+  color: light-dark(${ vars.colors.text.default.light }, ${ vars.colors.text.default.dark });
 `
 
 export const eventsContainer = css`
